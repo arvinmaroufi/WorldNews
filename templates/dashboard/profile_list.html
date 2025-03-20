@@ -1,0 +1,85 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_page %}Profile List{% endblock %}
+
+{% block content %}
+
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Profile photo</th>
+                            <th>Username</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>User Controls</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for profile in profiles_list %}
+                            <tr>
+                                {% if profile.image %}
+                                    <td class="py-1">
+                                        <img src="{{ profile.image.url }}" alt="default profile image" style="width: 40px; height: 40px">
+                                    </td>
+                                {% else %}
+                                    <td class="py-1">
+                                        <img src="{% static 'dashboard/images/default_profile_image.png' %}" alt="default profile image" style="width: 40px; height: 40px">
+                                    </td>
+                                {% endif %}
+                                <td>{{ profile.user.username }}</td>
+                                <td>{{ profile.first_name }}</td>
+                                <td>{{ profile.last_name }}</td>
+                                <td>{{ profile.email }}</td>
+                                <td>
+                                    <div class="mt-2">
+                                        <span><a href="{% url 'accounts:edit_user_profile' profile.user %}" class="btn btn-info btn-sm">Edit Profile</a></span>
+                                        <span><a href="{% url 'accounts:delete_profile' profile.user %}" class="btn btn-danger btn-sm">Delete User & Profile</a></span>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Pagination-->
+            <nav aria-label="Pagination">
+                <hr class="my-0"/>
+                {% if profiles_list.has_other_pages %}
+                    <ul class="pagination justify-content-center my-4">
+                        {% if profiles_list.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ profiles_list.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                        {% endif %}
+                        {% for page in pages_to_show %}
+                            {% if page == '...' %}
+                                <i class="page-item page-link">...</i>
+                            {% elif profiles_list.number == page %}
+                                <li class="page-item active" aria-current="page">
+                                    <a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page }}</a>
+                                </li>
+                            {% else %}
+                                <li class="page-item" aria-current="page">
+                                    <a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page }}</a>
+                                </li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if profiles_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ profiles_list.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </nav>
+        </div>
+    </div>
+
+{% endblock %}

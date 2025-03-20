@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ article.title }}{% endblock %}
+
+{% block content %}
+    <!-- ********** Hero Area Start ********** -->
+    {% if article.image %}
+        <div class="hero-area height-600 bg-img background-overlay" style="background-image: url({{ article.image.url }});">
+    {% else %}
+        <div class="hero-area height-600 bg-img background-overlay" style="background-image: url({% static 'main/img/image_not_available.jpg' %});">
+    {% endif %}
+        <div class="container h-100">
+            <div class="row h-100 align-items-center justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    <div class="single-blog-title text-center">
+                        <!-- Catagory -->
+                        <div class="post-cta"><a href="{% url 'news:category_article' article.category.slug %}">{{ article.category.title }}</a></div>
+                        <h3>{{ article.title }}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ********** Hero Area End ********** -->
+    <div class="main-content-wrapper section-padding-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- ============= Post Content Area ============= -->
+                <div class="col-12 col-lg-8">
+                    <div class="single-blog-content mb-100">
+                        <!-- Post Meta -->
+                        <div class="post-meta">
+                            <p><a href="#" class="post-author">{{ article.author }}</a> {{ article.created_at }}</p>
+                        </div>
+                        <!-- Post Content -->
+                        <div class="post-content">
+                            <h6 style="text-align: justify">{{ article.description|safe }}</h6>
+                            <!-- Post Tags -->
+                            <ul class="post-tags">
+                                {% for tag in article.tags.all %}
+                                    <li><a href="{% url 'news:article_tag' tag.title %}">{{ tag }}</a></li>
+                                {% endfor %}
+                            </ul>
+                            <!-- Post Meta -->
+                            <div class="post-meta second-part">
+                                <p><a href="#" class="post-author">{{ article.author }}</a> {{ article.created_at }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Sidebar Area ========== -->
+                {% include 'includes/sidebar.html' %}
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

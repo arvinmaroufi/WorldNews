@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+
+	<title>Register</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->
+    <link rel="icon" href="{% static 'main/img/core-img/favicon.ico' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/vendor/bootstrap/css/bootstrap.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/fonts/iconic/css/material-design-iconic-font.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/vendor/animate/animate.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/vendor/css-hamburgers/hamburgers.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/vendor/animsition/css/animsition.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/vendor/select2/select2.min.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/vendor/daterangepicker/daterangepicker.css' %}">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/css/util.css' %}">
+	<link rel="stylesheet" type="text/css" href="{% static 'accounts/css/main.css' %}">
+<!--===============================================================================================-->
+</head>
+<body>
+
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url({% static 'accounts/images/bg-01.jpg' %});">
+			<div class="wrap-login100">
+				<form class="login100-form validate-form" method="post">
+                    {% csrf_token %}
+					<span class="login100-form-logo">
+						<i class="zmdi zmdi-landscape"></i>
+					</span>
+
+					<span class="login100-form-title p-b-34 p-t-27">
+						Register
+					</span>
+
+					<div class="wrap-input100 validate-input" data-validate = "Enter First Name">
+						<input class="input100" type="text" name="first_name" placeholder="First Name">
+						<span class="focus-input100" data-placeholder="&#xf205;"></span>
+					</div>
+
+                    <div class="wrap-input100 validate-input" data-validate = "Enter Last Name">
+						<input class="input100" type="text" name="last_name" placeholder="Last Name">
+						<span class="focus-input100" data-placeholder="&#xf205;"></span>
+					</div>
+                    {% for error_username in form.username.errors %}
+                        {% if error_username %}
+                            <p class="alert alert-danger">{{ error_username }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="wrap-input100 validate-input" data-validate = "Enter Username">
+						<input class="input100" type="text" name="username" placeholder="Username">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+                    {% for error_email in form.email.errors %}
+                        {% if error_email %}
+                            <p class="alert alert-danger">{{ error_email }}</p>
+                        {% endif %}
+                    {% endfor %}
+                    <div class="wrap-input100 validate-input" data-validate = "Enter Email">
+						<input class="input100" type="email" name="email" placeholder="Email">
+						<span class="focus-input100" data-placeholder="&#xf207;"></span>
+					</div>
+                    {% for error_password in form.password.errors %}
+                        {% if error_password %}
+                            <p class="alert alert-danger">{{ error_password }}</p>
+                        {% endif %}
+                    {% endfor %}
+					<div class="wrap-input100 validate-input" data-validate="Enter Password">
+						<input class="input100" type="password" name="password" placeholder="Password">
+						<span class="focus-input100" data-placeholder="&#xf191;"></span>
+					</div>
+
+					<div class="container-login100-form-btn">
+						<button class="login100-form-btn">
+							Register
+						</button>
+					</div>
+
+					<div class="text-center p-t-90 txt1">
+                        Do you have an account?
+						<a class="txt1" href="{% url 'accounts:login' %}">
+							log in
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+	<div id="dropDownSelect1"></div>
+
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/vendor/jquery/jquery-3.2.1.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/vendor/animsition/js/animsition.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/vendor/bootstrap/js/popper.js' %}"></script>
+	<script src="{% static 'accounts/vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/vendor/select2/select2.min.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/vendor/daterangepicker/moment.min.js' %}"></script>
+	<script src="{% static 'accounts/vendor/daterangepicker/daterangepicker.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/vendor/countdowntime/countdowntime.js' %}"></script>
+<!--===============================================================================================-->
+	<script src="{% static 'accounts/js/main.js' %}"></script>
+
+</body>
+</html>

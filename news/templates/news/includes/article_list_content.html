@@ -1,0 +1,19 @@
+{% for article in articles %}
+    <div class="single-blog-post post-style-4 d-flex align-items-center">
+        <!-- Post Thumbnail -->
+        <div class="post-thumbnail">
+            <img src="{{ article.image.url }}" alt="{{ article.title|truncatewords:7 }}">
+        </div>
+        <!-- Post Content -->
+        <div class="post-content">
+            <a href="{{ article.get_absolute_url }}" class="headline">
+                <h5>{{ article.title|truncatewords:7 }}</h5>
+            </a>
+            <p>{{ article.description|truncatewords:14|safe }}</p>
+            <!-- Post Meta -->
+            <div class="post-meta">
+                <p>{{ article.created_at }}</p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

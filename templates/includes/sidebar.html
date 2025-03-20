@@ -1,0 +1,83 @@
+{% load static %}
+<div class="col-12 col-md-8 col-lg-4">
+    <div class="post-sidebar-area wow fadeInUpBig" data-wow-delay="0.2s">
+        <!-- Widget Area -->
+        <div class="sidebar-widget-area">
+            <h5 class="title">About World</h5>
+            <div class="widget-content">
+                <p style="text-align: justify">Welcome to our news website, where we strive to deliver the latest and
+                    most accurate
+                    news from around the world. Our dedicated team of journalists works tirelessly to
+                    provide insightful analysis and comprehensive coverage of current events. We believe
+                    in the power of information and aim to keep our readers informed and engaged. With a
+                    commitment to integrity and transparency, we ensure that our content is reliable and
+                    trustworthy. Join us as we explore the stories that shape our lives and
+                    communities.</p>
+            </div>
+        </div>
+        <!-- Widget Area -->
+        <div class="sidebar-widget-area">
+            <h5 class="title">Popular News</h5>
+            <div class="widget-content">
+                <!-- Single Blog Post -->
+                {% for article in popular_articles %}
+                    <div class="single-blog-post post-style-2 d-flex align-items-center widget-post">
+                    <!-- Post Thumbnail -->
+                        {% if article.image %}
+                            <div class="post-thumbnail">
+                                <img src="{{ article.image.url }}" alt="{{ article.title|truncatewords:7 }}">
+                            </div>
+                        {% else %}
+                            <div class="post-thumbnail">
+                                <img src="{% static 'main/img/image_not_available.jpg' %}" alt="{{ article.title|truncatewords:7 }}">
+                            </div>
+                        {% endif %}
+                    <!-- Post Content -->
+                    <div class="post-content">
+                        <a href="{{ article.get_absolute_url }}" class="headline">
+                            <h5 class="mb-0">{{ article.title|truncatewords:7 }}</h5>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <!-- Widget Area -->
+        <div class="sidebar-widget-area">
+            <h5 class="title">Be With Us</h5>
+            <div class="widget-content">
+                <div class="social-area d-flex justify-content-between">
+                    <a href="https://github.com/arvinmaroufi"><i class="fa fa-github"></i></a>
+                    <a href="https://t.me/arvinmaroufi_ir"><i class="fa fa-telegram"></i></a>
+                    <a href="https://instagram.com/arvinmaroufi.ir"><i class="fa fa-instagram"></i></a>
+                    <a href="mailto:arvinmaroufi.dev@gmail.com"><i class="fa fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+        <!-- Widget Area -->
+        <div class="sidebar-widget-area">
+            <h5 class="title">New Article</h5>
+            <div class="widget-content">
+                <!-- Single Blog Post -->
+                <div class="single-blog-post todays-pick">
+                    <!-- Post Thumbnail -->
+                    {% if new_article.image %}
+                        <div class="post-thumbnail">
+                            <img src="{{ new_article.image.url }}" alt="{{ new_article.title|truncatewords:7 }}">
+                        </div>
+                    {% else %}
+                        <div class="post-thumbnail">
+                            <img src="{% static 'main/img/image_not_available.jpg' %}" alt="{{ new_article.title|truncatewords:7 }}">
+                        </div>
+                    {% endif %}
+                    <!-- Post Content -->
+                    <div class="post-content px-0 pb-0">
+                        <a href="{{ new_article.get_absolute_url }}" class="headline">
+                            <h5>{{ new_article.title|truncatewords:7 }}</h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_page %}Dashboard{% endblock %}
+
+{% block content %}
+
+    <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="card-title">{{ profiles.user.username }}'s Profile</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Profile photo</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            {% if profiles.image %}
+                                <td class="py-1">
+                                <img src="{{ profiles.image.url }}" alt="default profile image" style="width: 40px; height: 40px">
+                            </td>
+                            {% else %}
+                                <td class="py-1">
+                                <img src="{% static 'dashboard/images/default_profile_image.png' %}" alt="default profile image" style="width: 40px; height: 40px">
+                            </td>
+                            {% endif %}
+                            <td>{{ profiles.first_name }}</td>
+                            <td>{{ profiles.last_name }}</td>
+                            <td>{{ profiles.email }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

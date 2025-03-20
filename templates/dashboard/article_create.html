@@ -1,0 +1,45 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_page %}Create Article{% endblock %}
+
+{% block content %}
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form class="forms-sample" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ forms.author|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.category|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.title|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.slug|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.media }}
+                        {{ forms.description|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.tags|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.image|as_crispy_field }}
+                    </div>
+                    <div class="form-group">
+                        {{ forms.publish|as_crispy_field }}
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Create</button>
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

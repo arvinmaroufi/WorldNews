@@ -1,0 +1,23 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block title_page %}Edit Tag{% endblock %}
+
+{% block content %}
+
+    <div class="col-12 grid-margin stretch-card">
+        <div class="card">
+            <div class="card-body">
+                <form class="forms-sample" method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ forms.title|as_crispy_field }}
+                    </div>
+                    <button type="submit" class="btn btn-primary mr-2">Save</button>
+                    <a href="{% url 'accounts:tag_list' %}" class="btn btn-light">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

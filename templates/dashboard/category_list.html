@@ -1,0 +1,110 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+{% block title_page %}Categories List{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Search Form -->
+                        <div class="navbar-menu-wrapper navbar-search-wrapper d-none d-lg-flex align-items-center">
+                            <ul class="navbar-nav mr-lg-2" style="width: 100%">
+                                <li class="nav-item nav-search d-none d-lg-block">
+                                    <form action="{% url 'accounts:category_search' %}" method="get">
+                                        <div class="input-group">
+
+                                            <input type="search" name="search" class="form-control" placeholder="Category Search..." aria-label="search" aria-describedby="search">
+                                            <button type="submit" class="btn btn-primary">Search</button>
+
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Categories Title</th>
+                                    <th>Image</th>
+                                    <th>Publish</th>
+                                    <th>Created At</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for category in categories %}
+                                    <tr>
+                                        <td>
+                                            {{ category.title }}
+                                            <div class="mt-2">
+                                                <span><a href="{% url 'accounts:category_edit' category.slug %}"
+                                                         class="btn btn-info btn-sm">Edit</a></span>
+                                                <span><a href="{% url 'accounts:category_delete' category.slug %}"
+                                                         class="btn btn-danger btn-sm">Delete</a></span>
+                                            </div>
+                                        </td>
+                                        {% if category.image %}
+                                            <td><img src="{{ category.image.url }}" class="img-fluid rounded"
+                                                     style="width: 80px; height: 50px; object-fit: cover;"
+                                                     alt="{{ category.title }}"></td>
+                                        {% else %}
+                                            <td><img src="{% static 'main/img/image_not_available.jpg' %}"
+                                                     class="img-fluid rounded"
+                                                     style="width: 80px; height: 50px; object-fit: cover;"
+                                                     alt="{{ category.title }}"></td>
+                                        {% endif %}
+                                        {% if category.publish == True %}
+                                            <td>
+                                                <label class="btn btn-success btn-sm">{{ category.publish }}</label><br>
+                                                <a href="{% url 'news:category_article' category.slug %}" target="_blank" class="btn btn-primary btn-sm">Show category articles on the website</a>
+                                            </td>
+                                        {% else %}
+                                            <td>
+                                                <label class="btn btn-danger btn-sm">{{ category.publish }}</label>
+                                            </td>
+                                        {% endif %}
+                                        <td>{{ category.created_at }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Pagination-->
+                    <nav aria-label="Pagination">
+                        <hr class="my-0"/>
+                        {% if categories.has_other_pages %}
+                            <ul class="pagination justify-content-center my-4">
+                                {% if categories.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page=
+                                            {{ categories.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}"
+                                                             tabindex="-1" aria-disabled="true">Previous</a></li>
+                                {% endif %}
+                                {% for page in pages_to_show %}
+                                    {% if page == '...' %}
+                                        <i class="page-item page-link">...</i>
+                                    {% elif categories.number == page %}
+                                        <li class="page-item active" aria-current="page">
+                                            <a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page }}</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item" aria-current="page">
+                                            <a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page }}</a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if categories.has_next %}
+                                    <li class="page-item">
+                                        <a class="page-link" href="?page={{ categories.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

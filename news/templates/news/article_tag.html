@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ active_tag.title }} Articles{% endblock %}
+
+{% block content %}
+    <!-- ********** Hero Area Start ********** -->
+    <div class="hero-area height-400 bg-img background-overlay"
+         style="background-image: url({% static 'main/img/blog-img/bg3.jpg' %});"></div>
+    <!-- ********** Hero Area End ********** -->
+
+    <div class="main-content-wrapper section-padding-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- ============= Post Content Area Start ============= -->
+                <div class="col-12 col-lg-8">
+                    <div class="post-content-area mb-100">
+                        <!-- Catagory Area -->
+                        <div class="world-catagory-area">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="title">{{ active_tag.title }} Articles</li>
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel" aria-labelledby="tab1">
+                                    <div id="articles-container">
+                                        {% for article in articles %}
+                                            <div class="single-blog-post post-style-4 d-flex align-items-center">
+                                                <!-- Post Thumbnail -->
+                                                {% if article.image %}
+                                                    <div class="post-thumbnail">
+                                                        <img src="{{ article.image.url }}" alt="{{ article.title|truncatewords:7 }}">
+                                                    </div>
+                                                {% else %}
+                                                    <div class="post-thumbnail">
+                                                        <img src="{% static 'main/img/image_not_available.jpg' %}" alt="{{ article.title|truncatewords:7 }}">
+                                                    </div>
+                                                {% endif %}
+                                                <!-- Post Content -->
+                                                <div class="post-content">
+                                                    <a href="{{ article.get_absolute_url }}" class="headline">
+                                                        <h5>{{ article.title }}</h5>
+                                                    </a>
+                                                    <p>{{ article.description|truncatewords:20|safe }}</p>
+                                                    <!-- Post Meta -->
+                                                    <div class="post-meta">
+                                                        <p>{{ article.created_at }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Sidebar Area ========== -->
+                {% include 'includes/sidebar.html' %}
+            </div>
+
+            <!-- Load More btn -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="load-more-btn mt-50 text-center">
+                        <button class="btn world-btn" id="load-more-btn">Load More</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

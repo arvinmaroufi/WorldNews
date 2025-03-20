@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{{ request.user.username }} User panel</title>
+    <!-- base:css -->
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/mdi/css/materialdesignicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'dashboard/vendors/css/vendor.bundle.base.css' %}">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="{% static 'dashboard/css/style.css' %}">
+    <!-- endinject -->
+    <link rel="shortcut icon" href="{% static 'main/img/core-img/favicon.ico' %}"/>
+</head>
+<body>
+<div class="container-scroller d-flex">
+    <!-- partial:./partials/_sidebar.html -->
+    <nav class="sidebar sidebar-offcanvas" id="sidebar">
+        <ul class="nav">
+            <li class="nav-item sidebar-category">
+                <p>Navigation</p>
+                <span></span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:dashboard' %}">
+                    <i class="mdi mdi-view-quilt menu-icon"></i>
+                    <span class="menu-title">Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'news:home' %}">
+                    <i class="mdi mdi-web menu-icon"></i>
+                    <span class="menu-title">Website visit</span>
+                </a>
+            </li>
+            {% if request.user.is_superuser %}
+                <li class="nav-item sidebar-category">
+                <p>Content</p>
+                <span></span>
+            </li>
+                <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                   aria-controls="ui-basic">
+                    <i class="mdi mdi-palette menu-icon"></i>
+                    <span class="menu-title">Content Management</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="ui-basic">
+                    <ul class="nav flex-column sub-menu">
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:category_create' %}">Add New Category</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:tag_create' %}">Add New Tag</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:article_create' %}">Add New Article</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:category_list' %}">Show Category</a>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:tag_list' %}">Show Tags</a>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:article_list' %}">Show Articles</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            {% endif %}
+            <li class="nav-item sidebar-category">
+                <p>Settings</p>
+                <span></span>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+                    <i class="mdi mdi-account menu-icon"></i>
+                    <span class="menu-title">Account Settings</span>
+                    <i class="menu-arrow"></i>
+                </a>
+                <div class="collapse" id="auth">
+                    <ul class="nav flex-column sub-menu">
+                        {% if request.user.is_superuser %}
+                            <li class="nav-item"><a class="nav-link" href="{% url 'accounts:profile_list' %}">Profile List</a></li>
+                        {% endif %}
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:edit_profile' request.user.profile.user.username %}">Edit Profile</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'accounts:logout' %}">Logout</a></li>
+                    </ul>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:./partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 px-0 py-0 py-lg-4 d-flex flex-row">
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+                <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+                <div class="navbar-brand-wrapper">
+                    {% if profiles.image %}
+                        <img src="{{ profiles.image.url }}" width="40px" class="navbar-brand brand-logo" alt="logo"/></a>
+                    {% else %}
+                        <img src="{% static 'dashboard/images/default_profile_image.png' %}" width="40px" class="navbar-brand brand-logo" alt="logo"/></a>
+                    {% endif %}
+
+                </div>
+                <h4 class="font-weight-bold mb-0 d-none d-md-block mt-1">Welcome {{ request.user.username }}</h4>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item">
+                        <h4 class="mb-0 font-weight-bold d-none d-xl-block">{% now 'SHORT_DATETIME_FORMAT' %}</h4>
+                    </li>
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                        data-toggle="offcanvas">
+                    <span class="mdi mdi-menu"></span>
+                </button>
+            </div>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <h2 style="font-weight: bold;margin-left: 25px;">{% block title_page %}{% endblock %}</h2>
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:./partials/_footer.html -->
+            <!-- style="position: absolute;bottom: 0;width: 85%" -->
+            <footer class="footer">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                            <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © <a href="{% url 'news:home' %}" style="text-decoration: none;color: #6640B2;">worldnews.com</a></span>
+                            <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Breaking News, Real Stories</span>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+
+<!-- base:js -->
+<script src="{% static 'dashboard/vendors/js/vendor.bundle.base.js' %}"></script>
+<!-- endinject -->
+<!-- Plugin js for this page-->
+<script src="{% static 'dashboard/vendors/chart.js/Chart.min.js' %}"></script>
+<!-- End plugin js for this page-->
+<!-- inject:js -->
+<script src="{% static 'dashboard/js/off-canvas.js' %}"></script>
+<script src="{% static 'dashboard/js/hoverable-collapse.js' %}"></script>
+<script src="{% static 'dashboard/js/template.js' %}"></script>
+<!-- endinject -->
+<!-- plugin js for this page -->
+<!-- End plugin js for this page -->
+<!-- Custom js for this page-->
+<script src="{% static 'dashboard/js/dashboard.js' %}"></script>
+<!-- End custom js for this page-->
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+{% extends 'dashboard/main.html' %}
+{% load static %}
+{% block title_page %}Tags List{% endblock %}
+
+{% block content %}
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Search Form -->
+                        <div class="navbar-menu-wrapper navbar-search-wrapper d-none d-lg-flex align-items-center">
+                            <ul class="navbar-nav mr-lg-2" style="width: 100%">
+                                <li class="nav-item nav-search d-none d-lg-block">
+                                    <form action="{% url 'accounts:tag_search' %}" method="get">
+                                        <div class="input-group">
+
+                                            <input type="search" name="search" class="form-control" placeholder="Tag Search..." aria-label="search" aria-describedby="search">
+                                            <button type="submit" class="btn btn-primary">Search</button>
+
+                                        </div>
+                                    </form>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Tags Title</th>
+                                    <th>Publish</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for tag in tags %}
+                                    <tr>
+                                        <td>
+                                            {{ tag.title }}
+                                            <div class="mt-2">
+                                                <span><a href="{% url 'accounts:tag_edit' tag.title %}" class="btn btn-info btn-sm">Edit</a></span>
+                                                <span><a href="{% url 'accounts:tag_delete' tag.title %}" class="btn btn-danger btn-sm">Delete</a></span>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <a href="{% url 'news:article_tag' tag.title %}" target="_blank" class="btn btn-primary btn-sm">Show tag articles on the website</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- Pagination-->
+                    <nav aria-label="Pagination">
+                        <hr class="my-0"/>
+                        {% if tags.has_other_pages %}
+                            <ul class="pagination justify-content-center my-4">
+                                {% if tags.has_previous %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ tags.previous_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" tabindex="-1" aria-disabled="true">Previous</a></li>
+                                {% endif %}
+                                {% for page in pages_to_show %}
+                                    {% if page == '...' %}
+                                        <i class="page-item page-link">...</i>
+                                    {% elif tags.number == page %}
+                                        <li class="page-item active" aria-current="page"><a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page }}</a></li>
+                                    {% else %}
+                                        <li class="page-item" aria-current="page"><a class="page-link" href="?page={{ page }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ page }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                {% if tags.has_next %}
+                                    <li class="page-item"><a class="page-link" href="?page={{ tags.next_page_number }}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">Next</a></li>
+                                {% endif %}
+                            </ul>
+                        {% endif %}
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

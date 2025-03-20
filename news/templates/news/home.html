@@ -1,0 +1,217 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}world news{% endblock %}
+
+{% block content %}
+    <!-- ********** Hero Area Start ********** -->
+    <div class="hero-area">
+
+        <!-- Hero Slides Area -->
+        <div class="hero-slides owl-carousel">
+            <!-- Single Slide -->
+            <div class="single-hero-slide bg-img background-overlay"
+                 style="background-image: url({% static 'main/img/blog-img/bg2.jpg' %});"></div>
+            <!-- Single Slide -->
+            <div class="single-hero-slide bg-img background-overlay"
+                 style="background-image: url({% static 'main/img/blog-img/bg1.jpg' %});"></div>
+        </div>
+    </div>
+    <!-- ********** Hero Area End ********** -->
+
+    <div class="main-content-wrapper section-padding-100">
+        <div class="container">
+            <div class="row justify-content-center">
+                <!-- ============= Post Content Area Start ============= -->
+                <div class="col-12 col-lg-8">
+                    <div class="post-content-area mb-50">
+                        <!-- Catagory Area -->
+                        <div class="world-catagory-area">
+                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                <li class="title">Political News</li>
+                            </ul>
+
+                            <div class="tab-content" id="myTabContent">
+
+                                <div class="tab-pane fade show active" id="world-tab-1" role="tabpanel"
+                                     aria-labelledby="tab1">
+                                    <div class="row">
+                                        <div class="col-12 col-md-6">
+                                            <div class="world-catagory-slider owl-carousel wow fadeInUpBig"
+                                                 data-wow-delay="0.1s">
+                                                <!-- Single Blog Post -->
+                                                {% for article in political_articles %}
+                                                    <div class="single-blog-post">
+                                                        <!-- Post Thumbnail -->
+                                                        <div class="post-thumbnail">
+                                                            <img src="{{ article.image.url }}"
+                                                                 alt="{{ article.title|truncatewords:7 }}">
+                                                            <!-- Catagory -->
+                                                            <div class="post-cta"><a
+                                                                    href="{% url 'news:category_article' article.category.slug %}">{{ article.category.title }}</a></div>
+                                                        </div>
+                                                        <!-- Post Content -->
+                                                        <div class="post-content">
+                                                            <a href="{{ article.get_absolute_url }}" class="headline">
+                                                                <h5>{{ article.title|truncatewords:7 }}</h5>
+                                                            </a>
+                                                            <p>{{ article.description|truncatewords:14|safe }}</p>
+                                                            <!-- Post Meta -->
+                                                            <div class="post-meta">
+                                                                <p>{{ article.created_at }}</p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 col-md-6">
+                                            <!-- Single Blog Post -->
+                                            {% for article in older_political_articles %}
+                                                <div class="single-blog-post post-style-2 d-flex align-items-center wow fadeInUpBig"
+                                                     data-wow-delay="0.2s">
+                                                    <!-- Post Thumbnail -->
+                                                    <div class="post-thumbnail">
+                                                        <img src="{{ article.image.url }}"
+                                                             alt="{{ article.title|truncatewords:7 }}">
+                                                    </div>
+                                                    <!-- Post Content -->
+                                                    <div class="post-content">
+                                                        <a href="{{ article.get_absolute_url }}" class="headline">
+                                                            <h5>{{ article.title|truncatewords:7 }}</h5>
+                                                        </a>
+                                                        <!-- Post Meta -->
+                                                        <div class="post-meta">
+                                                            <p>{{ article.created_at }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Catagory Area -->
+                        <div class="world-catagory-area mt-50">
+                            <ul class="nav nav-tabs" id="myTab2" role="tablist">
+                                <li class="title">Popular News</li>
+                            </ul>
+                            <div class="tab-content" id="myTabContent2">
+                                <div class="tab-pane fade show active" id="world-tab-10" role="tabpanel"
+                                     aria-labelledby="tab10">
+                                    <div class="row">
+                                        {% for article in popular_articles %}
+                                            <div class="col-12 col-md-6">
+                                                <!-- Single Blog Post -->
+                                                <div class="single-blog-post wow fadeInUpBig" data-wow-delay="0.2s">
+                                                    <!-- Post Thumbnail -->
+                                                    <div class="post-thumbnail">
+                                                        <img src="{{ article.image.url }}"
+                                                             alt="{{ article.title|truncatewords:7 }}">
+                                                        <!-- Catagory -->
+                                                        <div class="post-cta"><a
+                                                                href="{% url 'news:category_article' article.category.slug %}">{{ article.category.title }}</a></div>
+                                                    </div>
+                                                    <!-- Post Content -->
+                                                    <div class="post-content">
+                                                        <a href="{{ article.get_absolute_url }}" class="headline">
+                                                            <h5>{{ article.title|truncatewords:7 }}</h5>
+                                                        </a>
+                                                        <p>{{ article.description|truncatewords:14|safe }}</p>
+                                                        <!-- Post Meta -->
+                                                        <div class="post-meta">
+                                                            <p>{{ article.created_at }}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ========== Sidebar Area ========== -->
+                {% include 'includes/sidebar.html' %}
+            </div>
+
+            <div class="row justify-content-center">
+                <!-- ========== Single Blog Post ========== -->
+                {% for category in categories %}
+                    <div class="col-12 col-md-6 col-lg-4">
+                        <div class="single-blog-post post-style-3 mt-50 wow fadeInUpBig" data-wow-delay="0.2s">
+                            <!-- Post Thumbnail -->
+                            <div class="post-thumbnail">
+                                {% if category.image %}
+                                    <img src="{{ category.image.url }}" alt="{{ category.image }}">
+                                {% else %}
+                                    <img src="{% static 'main/img/image_not_available.jpg' %}"
+                                         alt="{{ category.image }}">
+                                {% endif %}
+                                <!-- Post Content -->
+                                <div class="post-content d-flex align-items-center justify-content-between">
+                                    <!-- Catagory -->
+                                    <div class="post-tag"><a href="{% url 'news:category_article' category.slug %}">{{ category.title }}</a></div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+            <div class="world-latest-articles">
+                <div class="row">
+                    <div class="col-12 col-lg-8">
+                        <div class="title">
+                            <h5>Latest News</h5>
+                        </div>
+
+                        <!-- Single Blog Post -->
+                        {% for article in latest_articles %}
+                            <div class="single-blog-post post-style-4 d-flex align-items-center wow fadeInUpBig"
+                                 data-wow-delay="0.2s">
+                                <!-- Post Thumbnail -->
+                                {% if article.image %}
+                                    <div class="post-thumbnail">
+                                        <img src="{{ article.image.url }}" alt="{{ article.title|truncatewords:7 }}">
+                                    </div>
+                                {% else %}
+                                    <div class="post-thumbnail">
+                                        <img src="{% static 'main/img/image_not_available.jpg' %}"
+                                             alt="{{ article.title|truncatewords:7 }}">
+                                    </div>
+                                {% endif %}
+                                <!-- Post Content -->
+                                <div class="post-content">
+                                    <a href="{{ article.get_absolute_url }}" class="headline">
+                                        <h5>{{ article.title }}</h5>
+                                    </a>
+                                    <p>{{ article.description|truncatewords:20|safe }}</p>
+                                    <!-- Post Meta -->
+                                    <div class="post-meta">
+                                        <p>{{ article.created_at }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Load More btn -->
+            <div class="row">
+                <div class="col-12">
+                    <div class="load-more-btn mt-50 text-center">
+                        <a href="{% url 'news:article_list' %}" class="btn world-btn">All News</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
