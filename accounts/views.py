@@ -16,8 +16,8 @@ def user_register(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password'])  # تنظیم پسورد
-            user.save()  # ذخیره کاربر
+            user.set_password(form.cleaned_data['password'])
+            user.save()
             return redirect('accounts:login')
     else:
         form = UserRegistrationForm()

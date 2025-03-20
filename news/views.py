@@ -44,7 +44,6 @@ def article_list(request):
         articles_page = articles[start:end]
         data = []
         for article in articles_page:
-            # Truncate description to 20 words and add ...
             truncated_description = truncatewords(article.description, 20)
             data.append({
                 'title': article.title,
