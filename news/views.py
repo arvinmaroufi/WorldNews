@@ -69,10 +69,6 @@ def article_search(request):
     new_article = Article.objects.filter(publish=True).order_by('-created_at')[0]
     articles_search = request.GET.get('search')
     articles = Article.objects.filter(title__icontains=articles_search)
-    # tags = Tag.objects.all()
-    # page_number = request.GET.get('page')
-    # paginator = Paginator(articles, 4)
-    # object_list = paginator.get_page(page_number)
     return render(request, 'news/article_list.html', {'popular_articles': popular_articles, 'new_article': new_article,
                                                       'articles': articles})
 

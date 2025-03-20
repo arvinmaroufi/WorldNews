@@ -8,22 +8,6 @@ from news.models import Article, Category, Tag
 from django.core.paginator import Paginator
 
 
-# def user_register(request):
-#     if request.user.is_authenticated == True:
-#         return redirect('news:home')
-#
-#     if request.method == 'POST':
-#         form = UserRegistrationForm(request.POST)
-#         if form.is_valid():
-#             user = form.save(commit=False)
-#             user.set_password(form.cleaned_data['password'])
-#             user.save()
-#             return redirect('accounts:login')
-#     else:
-#         form = UserRegistrationForm()
-#     return render(request, 'accounts/register.html', {'form': form})
-
-
 def user_register(request):
     if request.user.is_authenticated:
         return redirect('news:home')
@@ -123,11 +107,6 @@ def edit_profile(request, username):
         form = ProfileEditForm(instance=profile)
     return render(request, 'dashboard/edit_profile.html', {'profiles': profiles, 'form': form})
 
-
-# def delete_profile(request, username):
-#     profile = get_object_or_404(Profile, user__username=username)
-#     profile.delete()
-#     return redirect('accounts:profile_list')
 
 def delete_profile(request, username):
     user = get_object_or_404(User, username=username)
